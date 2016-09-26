@@ -1,0 +1,23 @@
+z1=c(.03,.03,.03)
+Aj=rbind(rep(1,8),rep(-1,8),-diag(8))
+G=c(0,0,-finalmus)
+b=c(rep(1,3),rep(0,10))
+mu=finalmus
+temp=matrix(0,nrow=2,ncol=3)
+temp1=matrix(0,nrow=3,ncol=8)
+for(i1 in 1:8){
+  mu[i1]=mu_tmp[i1]+h/2
+  mu[which(mu<0)]=0
+  mu<<-mu/sum(mu)
+  source("SMGDA/driver.R")
+  temp[1,]=colMeans(Result)
+  mu[i1]=mu_tmp[i1]-h/2
+  mu[which(mu<0)]=0
+  mu<<-mu/sum(mu)
+  source("SMGDA/driver.R")
+  temp[2,]=colMeans(Result)
+  temp1[,i1]=t((temp[1,]-temp[2,])/h)
+}
+Am=cbind(temp1)
+mat=rbind(cbind((Am%*%t(Am)+matrix(rep(1,9),nrow=3)),Am%*%t(Aj)),cbind(Aj%*%t(Am),(Aj%*%t(Aj)+G%*%t(G))))
+u=solve(mat,b)
