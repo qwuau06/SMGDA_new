@@ -45,7 +45,7 @@ while(norm(as.matrix(w),'2')>tol && k<=100){
 		temp1[,i1]=t((temp[1,]-temp[2,])/h)
 	}
 	X=temp1
-	w <- minNorm(X,b1)
+	w <- minNorm_mult(X,b1)
 	mu[b1,1:8]=mu_tmp[b1,1:8]-.05*w[1:8]			#step size calculation needed
 	mu[which(mu<0)]=0
 	mu[b1,1:8]=mu[b1,1:8]/sum(mu[b1,1:8])

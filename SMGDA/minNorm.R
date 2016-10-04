@@ -1,6 +1,6 @@
 #X is a matrix with gradients as row vectors
-minNorm_mult <-function(X,b1==NULL){
-  if(b1!=NULL){
+minNorm_mult <-function(X,b1=NULL){
+  if(!is.null(b1)){
     model <- list()
     I=diag(1,nrow=(8+b1))
     t1=cbind(-I,t(X))

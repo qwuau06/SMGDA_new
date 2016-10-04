@@ -5,16 +5,20 @@ t1 = Sys.time()
 #library("parallel")
 #library("mco")
 #library("gurobi")
-source("action_without_cluster.R")
-source("driver.R")
-source("minNorm.R")
-source("tempCode.R")
+
 
 #pm <- cbind(c(0.2, 0.005), c(0.005, 0.15))
 args <- commandArgs(trailingOnly = TRUE)
-startname <- paste("start_",args[1],".R")
+startname <- paste("start_",args[1],".R",sep='')
 print(startname)
 source(startname)
+
+print("load files...")
+#source("action_without_cluster.R")
+source("driver.R")
+source("minNorm.R")
+#source("tempCode.R")
+print("load done")
 
 #m <<- ecount(read)
 #n <<- vcount(read)
@@ -63,7 +67,7 @@ while(norm(as.matrix(w),'2')>tol && k<=120){
 	}
 	X=temp1
 	#source('SMGDA/minNorm1.R')
-	w = minNorm(X)
+	w = minNorm_mult(X)
 	print(w)
 	# Decide step size
 	it = 1
@@ -121,7 +125,7 @@ while(b1<=5 && bin){
 	pbar=runif(b1)
 	pbar=pbar/sum(pbar)
 	mu<<-cbind(mu,pbar)
-	source("SMGDA/tempCode.R")
+	source("tempCode.R")
 	b1=b1+1
 	finalres1 = paretoFilter(storedres)
 	finalmus1 = c()
@@ -150,4 +154,4 @@ while(b1<=5 && bin){
 			bin=FALSE
 	}
 }
-save(list = ls(),file=paste("fin_",args[1],".rdata"))
+save(list = ls(),file=paste("fin_",args[1],".rdata",sep=''))
